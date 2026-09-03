@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+button {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D9CDB3;
+  border-radius: 10px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #C57A5244;
+}
+
+.lp-spin {
+  animation: lp-spin-anim 0.8s linear infinite;
+}
+
+@keyframes lp-spin-anim {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 720px) {
+  .lp-hide-sm {
+    display: none;
+  }
+  .lp-admin-nav {
+    flex-direction: row !important;
+    overflow-x: auto;
+    width: 100% !important;
+  }
+}
