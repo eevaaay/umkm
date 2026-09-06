@@ -46,21 +46,21 @@ export default function CheckoutPage() {
     setError(null);
     setPlacing(true);
     try {
-      // Backend yang membuat baris `orders` + banyak `order_details` (per item)
-      // + `payments`, lalu mengembalikan order yang baru dibuat.
-      await createOrder({
-        address,
-        paymentMethod: payMethod,
-        items: cart.map((i) => ({ product_id: i.productId, qty: i.qty })),
-      });
-      clearCart();
-      toast("Pesanan berhasil dibuat!");
-      navigate("/checkout/sukses");
-    } catch (err) {
-      setError(err.message || "Gagal membuat pesanan. Coba lagi.");
-    } finally {
-      setPlacing(false);
-    }
+  const order = await createOrder({
+  items: cart.map((i) => ({
+    menu_item_id: i.productId,
+    qty: i.qty,
+  })),
+});
+
+clearCart();
+toast(`Pesanan ${order.order_number} berhasil dibuat!`);
+navigate("/checkout/sukses");
+} catch (err) {
+  setError(err.message || "Gagal membuat pesanan. Coba lagi.");
+} finally {
+  setPlacing(false);
+}
   };
 
   return (
