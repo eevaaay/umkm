@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Store, MapPin, Star, ShieldCheck } from "lucide-react";
 import { useApp } from "../context/AppContext";
-import { getStore, getStoreProducts } from "../api/stores";
+import { getStore } from "../api/stores";
 import Thumb from "../components/ui/Thumb";
 import { Badge } from "../components/ui/Badge";
 import { BackLink, SpecRow, LoadingState, ErrorState } from "../components/ui/Misc";
@@ -20,16 +20,17 @@ export default function StorePage() {
   const [error, setError] = useState(null);
 
   const load = () => {
-    setLoading(true);
-    setError(null);
-    Promise.all([getStore(id), getStoreProducts(id)])
-      .then(([storeData, productData]) => {
-        setStore(storeData);
-        setProducts(productData);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  };
+  setLoading(true);
+  setError(null);
+
+  getStore(id)
+    .then((storeData) => {
+      setStore(storeData);
+      setProducts(storeData.products || []);
+    })
+    .catch((err) => setError(err.message))
+    .finally(() => setLoading(false));
+};
 
   useEffect(load, [id]);
 
