@@ -30,22 +30,33 @@ export default function ProductCard({ product, t, onAdd }) {
       onMouseEnter={(e) => (e.currentTarget.style.borderColor = C.primary)}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = t.border)}
     >
-      <div style={{ position: "relative", aspectRatio: "1/1", padding: 10 }}>
+      <div
+  style={{
+    position: "relative",
+    width: "100%",
+    height: 210,
+    overflow: "hidden",
+  }}
+>
         
         {product.image ? (
           <img
-            src={`http://127.0.0.1:8000/storage/${product.image}`}
-            alt={product.name}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: 12,
-              display: "block",
-            }}
-          />
+  src={`http://127.0.0.1:8000/storage/${product.image}`}
+  alt={product.name}
+  style={{
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+  }}
+/>
         ) : (
-          <Thumb grad={grad} Icon={Icon} size={40} radius={12} />
+          <Thumb
+  grad={grad}
+  Icon={Icon}
+  size={40}
+  radius={0}
+/>
         )}
 
         {product.discount > 0 && (
