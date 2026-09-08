@@ -34,34 +34,39 @@ export default function CheckoutPage() {
   ];
 
   const handlePlace = async () => {
-    if (!user) {
-      toast("Masuk dulu sebelum checkout ya");
-      navigate("/masuk");
-      return;
-    }
-    if (!address.trim()) {
-      setError("Isi alamat pengiriman terlebih dahulu.");
-      return;
-    }
-    setError(null);
-    setPlacing(true);
-    try {
-  const order = await createOrder({
-  items: cart.map((i) => ({
-    menu_item_id: i.productId,
-    qty: i.qty,
-  })),
-});
+  if (!user) {
+    toast("Masuk dulu sebelum checkout ya");
+    navigate("/masuk");
+    return;
+  }
 
-clearCart();
-toast(`Pesanan ${order.order_number} berhasil dibuat!`);
-navigate("/checkout/sukses");
-} catch (err) {
-  setError(err.message || "Gagal membuat pesanan. Coba lagi.");
-} finally {
-  setPlacing(false);
-}
-  };
+  if (!address.trim()) {
+    setError("Isi alamat pengiriman terlebih dahulu.");
+    return;
+  }
+
+  setError(null);
+  setPlacing(true);
+
+  try {
+    const order = await createOrder({
+      items: cart.map((i) => ({
+        menu_item_id: i.productId,
+        qty: i.qty,
+      })),
+      payment_method: payMethod,
+    });
+
+    clearCart();
+    toast(`Pesanan ${order.order_number} berhasil dibuat!`);
+    navigate("/checkout/sukses");
+
+  } catch (err) {
+    setError(err.message || "Gagal membuat pesanan. Coba lagi.");
+  } finally {
+    setPlacing(false);
+  }
+};
 
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 20px 90px" }}>
