@@ -31,12 +31,33 @@ export default function ProductCard({ product, t, onAdd }) {
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = t.border)}
     >
       <div style={{ position: "relative", aspectRatio: "1/1", padding: 10 }}>
-        <Thumb grad={grad} Icon={Icon} size={40} radius={12} />
+        
+        {product.image ? (
+          <img
+            src={`http://127.0.0.1:8000/storage/${product.image}`}
+            alt={product.name}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: 12,
+              display: "block",
+            }}
+          />
+        ) : (
+          <Thumb grad={grad} Icon={Icon} size={40} radius={12} />
+        )}
+
         {product.discount > 0 && (
-          <Badge bg={C.danger} fg="#fff" style={{ position: "absolute", top: 18, left: 18 }}>
+          <Badge
+            bg={C.danger}
+            fg="#fff"
+            style={{ position: "absolute", top: 18, left: 18 }}
+          >
             -{product.discount}%
           </Badge>
         )}
+
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -63,26 +84,81 @@ export default function ProductCard({ product, t, onAdd }) {
           <Plus size={17} />
         </button>
       </div>
+
       <div style={{ padding: "0 14px 14px" }}>
-        <div style={{ fontSize: 13.5, fontWeight: 600, lineHeight: 1.4, marginBottom: 6, height: 37, overflow: "hidden", color: t.text }}>
+        <div
+          style={{
+            fontSize: 13.5,
+            fontWeight: 600,
+            lineHeight: 1.4,
+            marginBottom: 6,
+            height: 37,
+            overflow: "hidden",
+            color: t.text,
+          }}
+        >
           {product.name}
         </div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 7, marginBottom: 6 }}>
-          <span style={{ fontWeight: 800, fontSize: 16, color: t.text }}>{formatIDR(final)}</span>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: 7,
+            marginBottom: 6,
+          }}
+        >
+          <span style={{ fontWeight: 800, fontSize: 16, color: t.text }}>
+            {formatIDR(final)}
+          </span>
+
           {product.discount > 0 && (
-            <span style={{ fontSize: 12, color: t.textFaint, textDecoration: "line-through" }}>
+            <span
+              style={{
+                fontSize: 12,
+                color: t.textFaint,
+                textDecoration: "line-through",
+              }}
+            >
               {formatIDR(product.price)}
             </span>
           )}
         </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 12, color: t.textMuted }}>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            fontSize: 12,
+            color: t.textMuted,
+          }}
+        >
           <RatingStars rating={product.rating} />
           <span>Terjual {(product.sold ?? 0).toLocaleString("id-ID")}</span>
         </div>
+
         {product.store?.location && (
-          <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 7, fontSize: 11.5, color: t.textFaint }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              marginTop: 7,
+              fontSize: 11.5,
+              color: t.textFaint,
+            }}
+          >
             <MapPin size={11} />
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{product.store.location}</span>
+            <span
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {product.store.location}
+            </span>
           </div>
         )}
       </div>
